@@ -72,7 +72,7 @@ class Withdraw
             // calculate weekly day count
             $withdrawTransactionsObject["weekly_count"] = 1 + $lastRowInfo["weekly_count"];
             // var_dump($lastRowInfo["total_amount"]);
-            echo $weeklyTotalAmount . " - ". $lastRowInfo["total_amount"] . " = ". ($weeklyTotalAmount - $lastRowInfo["total_amount"]). "<br/>";
+            // echo $weeklyTotalAmount . " - ". $lastRowInfo["total_amount"] . " = ". ($weeklyTotalAmount - $lastRowInfo["total_amount"]). "<br/>";
 
             // Calculation for FREE_MAX_WITHDRAW_AMOUNT & FREE_MAX_WITHDRAW_DAYS_IN_WEEK
             if ($weeklyTotalAmount > Constants::$FREE_MAX_WITHDRAW_AMOUNT || $withdrawTransactionsObject["weekly_count"] > Constants::$FREE_MAX_WITHDRAW_DAYS_IN_WEEK) {

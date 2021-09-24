@@ -120,8 +120,8 @@ class FileUpload
         // echo json_encode(["DEPOSIT" => Constants::$DEPOSIT_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         echo "<br/>";
         // echo json_encode(["WITHDRAW" => Constants::$WITHDRAW_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        echo "<br/>";
-        echo "<br/>";
+        // echo "<br/>";
+        // echo "<br/>";
         // echo json_encode(["COMISSION" => Constants::$FINAL_COMISSION], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         foreach (Constants::$FINAL_COMISSION as $key => $comission) {
             echo $comission . "<br/>";
