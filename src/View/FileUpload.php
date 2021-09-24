@@ -76,15 +76,20 @@ class FileUpload
                 $this->transactionsObj[$operation] = $splitFileData[$operation_key];
             }
 
-            // if ($this->transactionsObj["currency"] == "JPY") {
-            //     $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["JPY:USD"]), 2);
-            // } else if ($this->transactionsObj["currency"] == "USD") {
-            //     $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["USD:USD"]), 2);
-            // } else if ($this->transactionsObj["currency"] == "EUR") {
-            //     $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2);
-            // }
+            if ($this->transactionsObj["currency"] == "JPY") {
+                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2);
+            } 
+            else if ($this->transactionsObj["currency"] == "USD") {
+                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2);
+            } 
+            else if ($this->transactionsObj["currency"] == "EUR") {
+                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2);
+            }
+            else{
+                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
+            }
 
-            $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
+            // $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
 
             array_push($this->transactionsList, $this->transactionsObj);
 
@@ -111,10 +116,16 @@ class FileUpload
             }
         }
         echo "<br/>";
-        echo "<pre>";
-        echo json_encode(["DEPOSIT" => Constants::$DEPOSIT_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        echo '<pre>';
+        // echo json_encode(["DEPOSIT" => Constants::$DEPOSIT_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         echo "<br/>";
         echo json_encode(["WITHDRAW" => Constants::$WITHDRAW_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        echo "<br/>";
+        echo "<br/>";
+        // echo json_encode(["COMISSION" => Constants::$FINAL_COMISSION], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        foreach (Constants::$FINAL_COMISSION as $key => $comission) {
+            echo $comission . "<br/>";
+        }
         echo "</pre>";
     }
 }

@@ -46,15 +46,14 @@ if (isset($_FILES['image'])) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Debit Credit</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
 
 <body>
     <form action="" method="POST" enctype="multipart/form-data">
         <input type="file" name="image" />
+        <br/>
         <input type="submit" />
     </form>
 </body>

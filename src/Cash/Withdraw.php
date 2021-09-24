@@ -68,9 +68,11 @@ class Withdraw
 
             $weeklyTotalAmount = $transactionsObject["amount"] + $lastRowInfo["total_amount"];
             $withdrawTransactionsObject["total_amount"] = $helper->round_up((float)$weeklyTotalAmount, 2);
-
+            
             // calculate weekly day count
             $withdrawTransactionsObject["weekly_count"] = 1 + $lastRowInfo["weekly_count"];
+            // var_dump($lastRowInfo["total_amount"]);
+            echo $weeklyTotalAmount . " - ". $lastRowInfo["total_amount"] . " = ". ($weeklyTotalAmount - $lastRowInfo["total_amount"]). "<br/>";
 
             // Calculation for FREE_MAX_WITHDRAW_AMOUNT & FREE_MAX_WITHDRAW_DAYS_IN_WEEK
             if ($weeklyTotalAmount > Constants::$FREE_MAX_WITHDRAW_AMOUNT || $withdrawTransactionsObject["weekly_count"] > Constants::$FREE_MAX_WITHDRAW_DAYS_IN_WEEK) {
@@ -97,5 +99,8 @@ class Withdraw
 
         // SET Withdraw object in global variable
         Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek][$transactionsObject["transactions_date"]][$transactionsObject["currency"]] = array_merge($transactionsObject, $withdrawTransactionsObject);
+
+        $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');
+        array_push(Constants::$FINAL_COMISSION, $numberFormat);
     }
 }

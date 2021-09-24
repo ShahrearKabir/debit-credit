@@ -33,5 +33,8 @@ class Deposit
 
         // SET Deposit object in global variable
         Constants::$DEPOSIT_LIST_USER_WISE[$depositTransactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek][$depositTransactionsObject["transactions_date"]][$depositTransactionsObject["currency"]] = $depositTransactionsObject;
+
+        $numberFormat = number_format((float) $depositTransactionsObject["chargeable_amount"], 2, '.', '');
+        array_push(Constants::$FINAL_COMISSION, $numberFormat);
     }
 }
