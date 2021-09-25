@@ -7,15 +7,10 @@ use DebitCredit\Handler\Helper;
 
 class Withdraw
 {
-    private $withdrawChargeAmpunt = 0;
     private $withdrawChargePercent = 0;
-    private $transactionsList = array();
-    private $filteredData = array();
 
-    public function __construct(array $transactionsObject, array $transactionsList)
-    {
-        $this->transactionsList = $transactionsList;
-
+    public function __construct(array $transactionsObject)
+{
         $helper = new Helper();
         // use helper fn for round up decimal
         $withdrawAmount = $helper->round_up((float)$transactionsObject["amount"], 2);
@@ -26,9 +21,11 @@ class Withdraw
             $this->withdrawChargePercent = Constants::$WITHDRAW_CHARGE_BUSINESS;
 
         // Current Date wise weekly calculation
-        $this->getWeeklyCalculationByCurrentDate($transactionsObject);
+        $result = $this->getWeeklyCalculationByCurrentDate($transactionsObject);
 
         $this->withdrawChargeAmpunt = ($withdrawAmount * $this->withdrawChargePercent) / 100;
+
+        return $result;
     }
 
     /**
@@ -51,11 +48,7 @@ class Withdraw
         $inRange = fn ($transactions_date) => $transactions_date["transactions_date"] >= $getStartOfWeek && $transactions_date["transactions_date"] < $getEndOfWeek;
         // $this->filteredData = array_filter($this->transactionsList, $inRange);
 
-        // $helper = new Helper();
-        // $helper->currency_convert($withdrawTransactionsObject["currency"], $withdrawTransactionsObject["amount"]);
-
         $weeklyTotalAmount = 0;
-
 
         if ($transactionsObject["user_type"] == "private" && isset(Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek])) {
             // Get Currency from last array
@@ -71,12 +64,10 @@ class Withdraw
             
             // calculate weekly day count
             $withdrawTransactionsObject["weekly_count"] = 1 + $lastRowInfo["weekly_count"];
-            // var_dump($lastRowInfo["total_amount"]);
-            // echo $weeklyTotalAmount . " - ". $lastRowInfo["total_amount"] . " = ". ($weeklyTotalAmount - $lastRowInfo["total_amount"]). "<br/>";
 
             // Calculation for FREE_MAX_WITHDRAW_AMOUNT & FREE_MAX_WITHDRAW_DAYS_IN_WEEK
             if ($weeklyTotalAmount > Constants::$FREE_MAX_WITHDRAW_AMOUNT || $withdrawTransactionsObject["weekly_count"] > Constants::$FREE_MAX_WITHDRAW_DAYS_IN_WEEK) {
-                $withdrawTransactionsObject["chargeable_amount"] = $helper->round_up((float)((($weeklyTotalAmount - $lastRowInfo["total_amount"]) * $this->withdrawChargePercent) / 100), 2);            //$helper->round_up((float)$withdrawTransactionsObject["amount"], 2)
+                $withdrawTransactionsObject["chargeable_amount"] = $helper->round_up((float)((($weeklyTotalAmount - $lastRowInfo["total_amount"]) * $this->withdrawChargePercent) / 100), 2);
             } else {
                 $withdrawTransactionsObject["chargeable_amount"] = 0;
             }
@@ -102,5 +93,6 @@ class Withdraw
 
         $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');
         array_push(Constants::$FINAL_COMISSION, $numberFormat);
+        return $numberFormat;
     }
 }

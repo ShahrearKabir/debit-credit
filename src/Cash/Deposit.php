@@ -36,5 +36,7 @@ class Deposit
 
         $numberFormat = number_format((float) $depositTransactionsObject["chargeable_amount"], 2, '.', '');
         array_push(Constants::$FINAL_COMISSION, $numberFormat);
+
+        return $numberFormat;
     }
 }

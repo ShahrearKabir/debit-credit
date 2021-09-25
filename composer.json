@@ -1,7 +1,28 @@
 {
+    "name": "kabir/debit-credit",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
     "autoload": {
         "psr-4": {
             "DebitCredit\\": "src/"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DebitCredit\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpunit": "phpunit",
+        "fix-cs": "php-cs-fixer fix",
+        "test-cs": "php-cs-fixer fix --dry-run -v",
+        "test": ["@phpunit", "@test-cs"]
+    },
+    "authors": [
+        {
+            "name": "Shahrear Kabir",
+            "email": "shahrear.k@gmail.com"
+        }
+    ]
 }

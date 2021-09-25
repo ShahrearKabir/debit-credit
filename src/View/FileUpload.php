@@ -76,17 +76,19 @@ class FileUpload
                 $this->transactionsObj[$operation] = $splitFileData[$operation_key];
             }
 
-            if ($this->transactionsObj["currency"] == "JPY") {
-                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2);
-            } 
-            else if ($this->transactionsObj["currency"] == "USD") {
-                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2);
-            } 
-            else if ($this->transactionsObj["currency"] == "EUR") {
-                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2);
-            }
-            else{
-                $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
+            switch ($this->transactionsObj["currency"]) {
+                case 'JPY':
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2);
+                    break;
+                case 'USD':
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2);
+                    break;
+                case 'EUR':
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2);
+                    break;
+                default:
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
+                    break;
             }
 
             // $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
@@ -99,7 +101,7 @@ class FileUpload
                  * send data for deposit calculation.
                  *
                  * @param  array $transactionsObj
-                 * @see  Constant DEPOSIT_LIST_USER_WISE: set value
+                 * @see  Constant FINAL_COMISSION: set value
                  * @return void 
                  */
                 new Deposit($this->transactionsObj);
@@ -108,11 +110,11 @@ class FileUpload
                  * send data for Withdraw calculation.
                  *
                  * @param  array $transactionsObj
-                 * @param  array $transactionsList
-                 * @see  Constant WITHDRAW_LIST_USER_WISE: set value
+                 * @see  Constant FINAL_COMISSION: set value
                  * @return void 
                  */
-                new Withdraw($this->transactionsObj, $this->transactionsList);
+                new Withdraw($this->transactionsObj);
+                
             }
         }
         echo "<br/>";
@@ -121,8 +123,6 @@ class FileUpload
         echo "<br/>";
         // echo json_encode(["WITHDRAW" => Constants::$WITHDRAW_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         // echo "<br/>";
-        // echo "<br/>";
-        // echo json_encode(["COMISSION" => Constants::$FINAL_COMISSION], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         foreach (Constants::$FINAL_COMISSION as $key => $comission) {
             echo $comission . "<br/>";
         }
