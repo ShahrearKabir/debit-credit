@@ -11,11 +11,27 @@ Debit-Credit is a base PHP project structure that implements the [PSR-4](http://
 In order to use the Debit-Credit just clone the git repository to your machine and run composer install.
 
 ```
-$ git clone git@github.com:cringer/psr4-template.git
+$ git clone https://github.com/ShahrearKabir/debit-credit.git
 $ cd debit-credit
 $ composer install
+$ composer start
 ```
 
+## Test
+```
+$ vendor/bin/phpunit .\tests\WithdrawTest.php
+$ vendor/bin/phpunit .\tests\DepositTest.php
+OR
+$ composer phpunit
+```
+## Explore
+Open your browser then goto http://localhost:8000/
+- Upload your *.csv file. Format Example: "2014-12-31,4,private,withdraw,1200.00,EUR"
+- Submit
+- Then get desire comission rate
+
+## Explore
+index.php (autoload and FileUpload)
 ## Usage
 Create any classes in the /src folder with the DebitCredit namespace and they will be autoloaded and available for use.
 
