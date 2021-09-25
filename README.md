@@ -14,7 +14,7 @@ In order to use the Debit-Credit just clone the git repository to your machine a
 $ git clone https://github.com/ShahrearKabir/debit-credit.git
 $ cd debit-credit
 $ composer install
-$ composer start
+$ composer start / start-dev
 ```
 
 ## Test
@@ -31,7 +31,12 @@ Open your browser then goto http://localhost:8000/
 - Then get desire comission rate
 
 ## Explore
-index.php (autoload and FileUpload)
+- index.php (autoload and Class FileUpload)
+- FileUploadView.php; GUI for file upload and view result
+- Constant.php contains base configuration value
+- Deposit.php contains deposit calculations
+- Withdraw.php contains withdraw calculations
+- Helper.php contains helper functions
 ## Usage
 Create any classes in the /src folder with the DebitCredit namespace and they will be autoloaded and available for use.
 
