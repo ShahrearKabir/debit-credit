@@ -23,4 +23,4 @@ Create any classes in the /src folder with the DebitCredit namespace and they wi
 <!-- If you find any bugs, issues errors or believe we could add further useful functionality let us know via the github [issues page](https://github.com/cringer/psr4-template/issues) for this project here - [https://github.com/cringer/psr4-template/issues](https://github.com/cringer/psr4-template/issues). -->
 
 ## Contributors
-- Shahrear Kabir : [Github](https://github.com/ShahrearKabir) | [Gmail](shahrear.k@gmail.com)
+- Shahrear Kabir : [Github](https://github.com/ShahrearKabir) | [Gmail] shahrear.k@gmail.com
