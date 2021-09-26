@@ -10,7 +10,7 @@ class Withdraw
     private $withdrawChargePercent = 0;
 
     public function __construct(array $transactionsObject)
-{
+    {
         $helper = new Helper();
         // use helper fn for round up decimal
         $withdrawAmount = $helper->round_up((float)$transactionsObject["amount"], 2);
@@ -58,10 +58,9 @@ class Withdraw
             $lastRowInfo = end(Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek])[$lastKey];
 
             // calculate weekly total amount
-
             $weeklyTotalAmount = $transactionsObject["amount"] + $lastRowInfo["total_amount"];
             $withdrawTransactionsObject["total_amount"] = $helper->round_up((float)$weeklyTotalAmount, 2);
-            
+
             // calculate weekly day count
             $withdrawTransactionsObject["weekly_count"] = 1 + $lastRowInfo["weekly_count"];
 
@@ -91,7 +90,23 @@ class Withdraw
         // SET Withdraw object in global variable
         Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek][$transactionsObject["transactions_date"]][$transactionsObject["currency"]] = array_merge($transactionsObject, $withdrawTransactionsObject);
 
-        $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');
+        $numberFormat = 0;
+        switch ($transactionsObject["currency"]) {
+            case 'JPY':
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2, '.', '');
+                break;
+            case 'USD':
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2, '.', '');
+                break;
+            case 'EUR':
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2, '.', '');
+                break;
+            default:
+                $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');
+                break;
+        }
+
+        // $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');
         array_push(Constants::$FINAL_COMISSION, $numberFormat);
         return $numberFormat;
     }
