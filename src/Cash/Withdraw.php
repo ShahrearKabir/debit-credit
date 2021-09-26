@@ -49,10 +49,10 @@ class Withdraw
         // $this->filteredData = array_filter($this->transactionsList, $inRange);
 
         $weeklyTotalAmount = 0;
-
         if ($transactionsObject["user_type"] == "private" && isset(Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek])) {
             // Get Currency from last array
             $lastKey = array_key_last(end(Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek]));
+            // echo ($lastKey) . "<br>";
 
             // Get last row from array
             $lastRowInfo = end(Constants::$WITHDRAW_LIST_USER_WISE[$transactionsObject["user_id"]][$getStartOfWeek . ":" . $getEndOfWeek])[$lastKey];
@@ -93,13 +93,13 @@ class Withdraw
         $numberFormat = 0;
         switch ($transactionsObject["currency"]) {
             case 'JPY':
-                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2, '.', '');
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION_API["JPY"]), 2, '.', '');
                 break;
             case 'USD':
-                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2, '.', '');
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION_API["USD"]), 2, '.', '');
                 break;
             case 'EUR':
-                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2, '.', '');
+                $numberFormat = number_format(((float) $withdrawTransactionsObject["chargeable_amount"] * Constants::$CURRENCY_CONVERSION_API["EUR"]), 2, '.', '');
                 break;
             default:
                 $numberFormat = number_format((float) $withdrawTransactionsObject["chargeable_amount"], 2, '.', '');

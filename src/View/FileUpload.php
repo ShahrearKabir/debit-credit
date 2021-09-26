@@ -16,8 +16,9 @@ class FileUpload
     public function __construct()
     {
         $this->view();
-        // $helper = new Helper();
-        // $helper->currency_convert();
+        $helper = new Helper();
+        $currencyValues = $helper->currency_convert();
+        Constants::$CURRENCY_CONVERSION_API = $currencyValues["rates"];
     }
 
     /**
@@ -76,15 +77,18 @@ class FileUpload
                 $this->transactionsObj[$operation] = $splitFileData[$operation_key];
             }
 
+            $this->transactionsObj["total_amount"] = 0;
+            $this->transactionsObj["weekly_count"] = 0;
+            $this->transactionsObj["chargeable_amount"] = 0;
             switch ($this->transactionsObj["currency"]) {
                 case 'JPY':
-                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:JPY"]), 2);
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION_API["JPY"]), 2);
                     break;
                 case 'USD':
-                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:USD"]), 2);
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION_API["USD"]), 2);
                     break;
                 case 'EUR':
-                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION["EUR:EUR"]), 2);
+                    $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"] / Constants::$CURRENCY_CONVERSION_API["EUR"]), 2);
                     break;
                 default:
                     $this->transactionsObj["amount"] = $helper->round_up((float)($this->transactionsObj["amount"]), 2);
@@ -120,9 +124,9 @@ class FileUpload
         echo "<br/>";
         echo '<pre>';
         // echo json_encode(["DEPOSIT" => Constants::$DEPOSIT_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        echo "<br/>";
-        // echo json_encode(["WITHDRAW" => Constants::$WITHDRAW_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         // echo "<br/>";
+        // echo json_encode(["WITHDRAW" => Constants::$WITHDRAW_LIST_USER_WISE], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        echo "<br/>";
         foreach (Constants::$FINAL_COMISSION as $key => $comission) {
             echo $comission . "<br/>";
         }

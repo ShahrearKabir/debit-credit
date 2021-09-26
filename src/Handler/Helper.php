@@ -29,12 +29,7 @@ class Helper
         $endpoint = 'historical';
         $access_key = Constants::$CURRENCY_ACCESS_KEY;
 
-        // $from = 'EUR';
-        // $to = $currency;
-        // $amount = 10;
-
-        // initialize CURL: http://api.currencylayer.com/historical?access_key=3e521a883c3fd3297e5938c0ecf94e96&date=2010-09-23&currencies=USD,AUD,CAD,PLN,MXN&format=1
-        $ch = curl_init('http://api.currencylayer.com/' . $endpoint . '?access_key=' . $access_key . '&date=' . date("Y-m-d") . '&currencies=EUR,USD,JPY&format=1');
+        $ch = curl_init('http://api.exchangeratesapi.io/v1/latest?access_key=' . $access_key);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // get the (still encoded) JSON data:
@@ -45,9 +40,9 @@ class Helper
         $conversionResult = json_decode($json, true);
 
         // access the conversion result
-        // var_dump( $conversionResult);
-        echo "<pre>";
-        echo json_encode($conversionResult, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        echo "</pre>";
+        // echo "<pre>";
+        // echo json_encode($conversionResult, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        // echo "</pre>";
+        return $conversionResult;
     }
 }

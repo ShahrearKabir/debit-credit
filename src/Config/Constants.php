@@ -21,7 +21,7 @@ class Constants
     public static $DEPOSIT_LIST_USER_WISE = array();
     public static $WITHDRAW_LIST_USER_WISE = array();
     public static $FINAL_COMISSION = array();
-    public static $CURRENCY_ACCESS_KEY = "3e521a883c3fd3297e5938c0ecf94e96";
+    public static $CURRENCY_ACCESS_KEY = "a43d96bb9a0d7a311f7c0440150926be";
     public static $CURRENCY_CONVERSION = [ 
         "EUR:EUR" => 1.00, 
         "EUR:USD" => 1.1497, 
@@ -31,4 +31,5 @@ class Constants
         "JPY:EUR" => 0.0077,
         "USD:EUR" => 0.85,
     ];
+    public static $CURRENCY_CONVERSION_API = array();
 }
