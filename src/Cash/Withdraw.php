@@ -60,13 +60,17 @@ class Withdraw
             // calculate weekly total amount
             $weeklyTotalAmount = $transactionsObject["amount"] + $lastRowInfo["total_amount"];
             $withdrawTransactionsObject["total_amount"] = $helper->round_up((float)$weeklyTotalAmount, 2);
-
+            
             // calculate weekly day count
             $withdrawTransactionsObject["weekly_count"] = 1 + $lastRowInfo["weekly_count"];
 
             // Calculation for FREE_MAX_WITHDRAW_AMOUNT & FREE_MAX_WITHDRAW_DAYS_IN_WEEK
             if ($weeklyTotalAmount > Constants::$FREE_MAX_WITHDRAW_AMOUNT || $withdrawTransactionsObject["weekly_count"] > Constants::$FREE_MAX_WITHDRAW_DAYS_IN_WEEK) {
-                $withdrawTransactionsObject["chargeable_amount"] = $helper->round_up((float)((($weeklyTotalAmount - $lastRowInfo["total_amount"]) * $this->withdrawChargePercent) / 100), 2);
+
+                $total = 0;
+                $lastRowInfo["total_amount"] < Constants::$FREE_MAX_WITHDRAW_AMOUNT ? $total = $weeklyTotalAmount - Constants::$FREE_MAX_WITHDRAW_AMOUNT : $total = $weeklyTotalAmount - $lastRowInfo["total_amount"];
+
+                $withdrawTransactionsObject["chargeable_amount"] = $helper->round_up((float)((($total) * $this->withdrawChargePercent) / 100), 2);
             } else {
                 $withdrawTransactionsObject["chargeable_amount"] = 0;
             }
