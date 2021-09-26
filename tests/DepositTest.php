@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DebitCredit\Tests;
 
 use DebitCredit\Cash\Deposit;
+use DebitCredit\Handler\Helper;
 use PHPUnit\Framework\TestCase;
 
 class DepositTest extends TestCase
@@ -19,6 +20,10 @@ class DepositTest extends TestCase
             "amount"=> "1000",
             "currency"=> "EUR"
         );
+        
+        $helper = new Helper();
+        $helper->currency_convert();
+        
         $result = new Deposit($inputValue);
         $this->assertEquals(0.3, $result->__construct($inputValue));
     }

@@ -43,6 +43,7 @@ class Helper
         // echo "<pre>";
         // echo json_encode($conversionResult, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         // echo "</pre>";
+        Constants::$CURRENCY_CONVERSION_API = $conversionResult["rates"];
         return $conversionResult;
     }
 }

@@ -6,6 +6,7 @@ namespace DebitCredit\Tests;
 
 use DebitCredit\Cash\Withdraw;
 use DebitCredit\Config\Constants;
+use DebitCredit\Handler\Helper;
 use PHPUnit\Framework\TestCase;
 
 class WithdrawTest extends TestCase
@@ -17,9 +18,16 @@ class WithdrawTest extends TestCase
             "user_id"=> "2",
             "user_type"=> "private",
             "transactions_type"=> "withdraw",
-            "amount"=> "1100",
-            "currency"=> "EUR"
+            "amount"=> 1100,
+            "currency"=> "EUR",
+            "weekly_count"=> 1,
+            "total_amount"=> 1100,
+            "chargeable_amount"=> 0,
         );
+
+        $helper = new Helper();
+        $helper->currency_convert();
+        
         $result = new Withdraw($inputValue);
         $constant = Constants::$FINAL_COMISSION;
         

@@ -18,7 +18,7 @@ class FileUpload
         $this->view();
         $helper = new Helper();
         $currencyValues = $helper->currency_convert();
-        Constants::$CURRENCY_CONVERSION_API = $currencyValues["rates"];
+        // Constants::$CURRENCY_CONVERSION_API = $currencyValues["rates"];
     }
 
     /**
